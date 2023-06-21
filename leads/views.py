@@ -1,7 +1,10 @@
 from django.shortcuts import render,redirect
+from django.core.mail import send_mail
+from django.views import generic
 from django.http import HttpResponse
 from .models import Lead,Agent
 from .forms import LeadForm,LeadModelForm
+from django.urls import reverse
 
 def landing_page(request):
    return render(request,'landing.html')
@@ -24,22 +27,40 @@ def lead_detail(request,pk):
       'pk':pk
    }
    return render(request,"leads/lead_detail.html",context)
-def lead_create(request):
-   form=LeadModelForm()
-   if request.method=='POST':
-      print(request)
-      form=LeadModelForm(request.POST)
-      print('recieving a post request')
-      if form.is_valid():
-          form.save()
-          return redirect('/leads')      
+
+class LeadCreate(generic.CreateView):
+   template_name='leads/lead_create.html'
+   form_class=LeadModelForm
+   def get_success_url(self):
+      return reverse('leads:leads-list') 
+   def form_valid(self,form):
+      send_mail(
+         subject='A lead has been created',
+         message='Go to the website to see the lead',
+         from_email='aditya.raamesh@gmail.com',
+         recipient_list=[ 'aditya.raamesh@gmail.com']
+      )
+      return super().form_valid(form)
+     
+
+
+
+# def lead_create(request):
+#    form=LeadModelForm()
+#    if request.method=='POST':
+#       print(request)
+#       form=LeadModelForm(request.POST)
+#       print('recieving a post request')
+#       if form.is_valid():
+#           form.save()
+#           return redirect('/leads')      
      
 
   
-   context={
-      'form':form
-   }
-   return render(request,'leads/lead_create.html',context)
+   # context={
+   #    'form':form
+   # }
+   # return render(request,'leads/lead_create.html',context)
 
 
 def lead_update(request,pk):
