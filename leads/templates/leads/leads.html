@@ -1,10 +1,37 @@
 {% extends "base.html" %}
 {% block content %}
-<section class="text-gray-600 body-font">
+
+<!-- <section class="text-gray-600 body-font">
     <div class="container px-5 py-12 mx-auto">
       <h1 class="sm:text-3xl text-2xl font-medium title-font text-center text-gray-900 mb-20">Here are the leads wiht the assignees
         
+      </h1> -->
+      <style>
+        .centered-heading {
+            text-align: center;
+        }
+        
+        .beautify-heading {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: #333333;
+            margin-bottom: 2rem;
+        }
+    </style>
+    
+    <section class="text-gray-600 body-font">
+        <div class="container px-5 py-5 mx-auto">
+            <h1 class="sm:text-3xl text-2xl font-medium title-font centered-heading beautify-heading">Here are the leads with the assignees</h1>
+            
+     
+        
       </h1>
+            
+        </div>
+    </section>
+  <section>
+    <div>
+    
       {% for lead in leads %}
       <div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4 md:space-y-0 space-y-6">
         <div class="p-4 md:w-1/3 flex">
@@ -14,8 +41,8 @@
             </svg>
           </div>
           <div class="flex-grow pl-6">
-            <h2 class="text-gray-900 text-lg title-font font-medium mb-2">{{lead.first_name}}</h2>
-            <p class="leading-relaxed text-base">{{lead.last_name}} {{lead.agent}}</p>
+            <a href="{% url 'leads:lead-detail' lead.pk %}"class="text-gray-900 text-lg title-font font-medium mb-2 capitalize-text">Client->{{lead.first_name}} {{lead.last_name}}<hr></a>
+            <p class="leading-relaxed text-base capitalize-text">AGENT->{{lead.agent}}</p>
             <a href="{% url 'leads:lead-update' lead.pk %}" class="mt-3 text-indigo-500 inline-flex items-center">Update lead
               <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
                 <path d="M5 12h14M12 5l7 7-7 7"></path>
@@ -28,6 +55,19 @@
       {% endfor %}
     </div>
   </section>
+  
+  <style>
+      .centered-link {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: #e6f7ff;
+          padding: 10px;
+      }
+  </style>
+  
+  <div class="centered-link">
+      <a href="{% url 'leads:lead-create' %}" style="text-decoration: none;">Create a new lead</a>
+  </div>
 
-<a href="{% url 'leads:lead-create' %}">create a new lead</a>
 {% endblock content %}

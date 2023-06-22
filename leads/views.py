@@ -3,8 +3,29 @@ from django.core.mail import send_mail
 from django.views import generic
 from django.http import HttpResponse
 from .models import Lead,Agent
-from .forms import LeadForm,LeadModelForm
+from .forms import LeadForm,LeadModelForm,CustomUsercreation
 from django.urls import reverse
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.views import LoginView
+from django.urls import reverse_lazy
+from django.contrib import messages
+
+# class SignUpView(generic.CreateView):
+#     template_name='registration/signup.html'
+#     form_class=CustomUsercreation
+#     def get_success_url(self):
+#       return reverse('leads:leads-list') 
+
+class MyLoginView(LoginView):
+   redirect_authenticated_user = True
+    
+   def get_success_url(self):
+        return reverse_lazy('leads') 
+    
+   def form_invalid(self, form):
+        messages.error(self.request,'Invalid username or password')
+        return self.render_to_response(self.get_context_data(form=form))
+
 
 def landing_page(request):
    return render(request,'landing.html')
