@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+
+   
+
+<h1>{{agent.user.username}}</h1>
+<a href="{% url 'agents:agents-list' %}">Return to Agents</a>   
+<a href="{% url 'agents:agent-update' agent.pk%}">Update Agent</a>  
+
+
+
+{% endblock content %}

@@ -18,7 +18,7 @@ from django.urls import path,include
 from leads.views import landing_page
 from django.conf import settings
 from django.conf.urls.static import static
-from django.contrib.auth.views import LoginView,LogoutView,S
+from django.contrib.auth.views import LoginView,LogoutView
 from leads.views import MyLoginView
 
 
@@ -30,9 +30,10 @@ urlpatterns = [
     path('',landing_page,name='landing-page'),
     path('login/',LoginView.as_view(),name='login'),
     # path('signup/',SignUpView.as_view(),name='signup'),
-    path('logout/',LogoutView.as_view(),name='logout')
-   
-]
+    path('logout/',LogoutView.as_view(),name='logout'),
+     path('agents/',include('agents.urls',namespace='agents'))
+    
+   ]
 if settings.DEBUG:
     urlpatterns+=static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
 
