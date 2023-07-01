@@ -129,4 +129,5 @@ STATIC_ROOT='static_root'
 AUTH_USER_MODEL='leads.user'
 
 EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'
+LOGOUT_REDIRECT_URL='landing-page'
 LOGIN_REDIRECT_URL='/leads'
